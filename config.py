@@ -1,0 +1,3 @@
+ROWS = 15
+COLS = 20
+CELL_SIZE = 30
