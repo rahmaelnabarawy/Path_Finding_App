@@ -1,7 +1,7 @@
-from config import *
 from Algorithms.a_star import *
 from Algorithms.bfs import *
 from Models.cell import *
+from UI.status import *
 import tkinter as tk
 
 class Visualizer:
@@ -67,11 +67,25 @@ class Visualizer:
 
     def start_astar(self, event):
         if self.start and self.end:
-            a_star(self.draw_grid, self.grid, self.start, self.end)
+            show_running_overlay(self)
+            self.root.update()
+            res = a_star(self.draw_grid, self.grid, self.start, self.end)
+            remove_running_overlay(self)
+            if res :
+                show_overlay_message(self,"PATH FOUND!", "green", 2000)
+            else:
+                show_overlay_message(self,"PATH NOT FOUND!", "red", 2000)
 
     def start_bfs(self, event):
         if self.start and self.end:
-            bfs(self.draw_grid, self.grid, self.start, self.end)
+            show_running_overlay(self)
+            self.root.update()
+            res = bfs(self.draw_grid, self.grid, self.start, self.end)
+            remove_running_overlay(self)
+            if res :
+                show_overlay_message(self,"PATH FOUND!", "green", 2000)
+            else:
+                show_overlay_message(self,"PATH NOT FOUND!", "red", 2000)
 
     def clear_grid(self, event):
         self.start = None
