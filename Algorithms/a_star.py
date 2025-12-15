@@ -2,49 +2,36 @@ from queue import PriorityQueue
 from config import *
 from Models.cell import *
 from Models.node import *
+from Algorithms.helper import get_neighbors,heuristic
 
-# --- Heuristic for grid (Manhattan distance)
-def heuristic(cell):
-    return abs(cell.row - end_cell.row) + abs(cell.col - end_cell.col)
-
-# --- Get neighbors in 4 directions
-def get_neighbors(grid, cell):
-    neighbors = []
-    for d in [(-1,0),(1,0),(0,-1),(0,1)]:
-        r, c = cell.row + d[0], cell.col + d[1]
-        if 0 <= r < ROWS and 0 <= c < COLS and grid[r][c].color != "black":
-            neighbors.append(grid[r][c])
-    return neighbors
-
-def a_star(draw, grid, start, end):
+def a_star(draw,grid,start,end):
     global end_cell
     end_cell = end
-
-    open_set = PriorityQueue()
-    start_node = Node(start, [start])
-    open_set.put((heuristic(start), 0, 0, start_node))  # (f_score, g_score, counter, node)
-    count = 0
-
-    while not open_set.empty():
-        f_score, g_score, _, current_node = open_set.get()
-        current_cell = current_node.cell
-
-        if current_cell == end:
-            # Draw the path
-            for c in current_node.path:
-                if c != start and c != end:
-                    c.make_path()
-                draw()
-            return True
-
-        for neighbor in get_neighbors(grid, current_cell):
-            if neighbor not in current_node.path:  # avoid cycles
-                new_path = current_node.path + [neighbor]
-                new_g = g_score + 1
-                new_f = new_g + heuristic(neighbor)
-                count += 1
-                open_set.put((new_f, new_g, count, Node(neighbor, new_path)))
-
-        draw()
-
-    return False
+    count=0 ##randum value
+    q=PriorityQueue()
+    start_node=Node(cell=start,path=[start])
+    
+    q.put((heuristic(start),0,count,start_node))
+    while not q.empty():
+        
+        h,g,randum_val,node=q.get()
+        if node.cell== end:
+            for cell in node.path:
+                if cell!=start and cell !=end:
+                    cell.make_path()
+                    draw()
+            return  True            
+        else:
+            neighbors=get_neighbors(grid ,node.cell)
+            for n in neighbors:
+             if n not in node.path:
+                if n !=start and n!=end:
+                    n.make_visited()
+                count=count+1
+                neighbor_path=node.path+[n]
+                neighbor=Node(n,neighbor_path)
+                new_g=g+1
+                h=new_g+heuristic(n)
+                
+                q.put((h,new_g,count,neighbor))
+    return False    
