@@ -1,10 +1,5 @@
 from config import *
-from Algorithms.a_star import end_cell
-
-# --- Heuristic for grid (Manhattan distance)
-def heuristic(cell):
-    return abs(cell.row - end_cell.row) + abs(cell.col - end_cell.col)
-
+from Algorithms.a_star import *
 
 # --- Get neighbors in 4 directions
 def get_neighbors(grid, cell):
