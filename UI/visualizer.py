@@ -8,6 +8,7 @@ import tkinter as tk
 
 class Visualizer:
     def __init__(self, root):
+        self.results = {}
         self.root = root
         self.canvas = tk.Canvas(root, width=COLS*CELL_SIZE, height=ROWS*CELL_SIZE)
         self.canvas.pack()
@@ -83,12 +84,12 @@ class Visualizer:
         if self.start and self.end:
             show_running_overlay(self)
             self.root.update()
-            res = bfs(self.draw_grid, self.grid, self.start, self.end)
-            remove_running_overlay(self)
-            if res :
-                show_overlay_message(self,"PATH FOUND!", "green", 2000)
+            result = bfs(self.draw_grid, self.grid, self.start, self.end)
+            self.results["BFS"] = result
+            if result["found"]:
+                show_overlay_message(self, "PATH FOUND!", "green", 2000)
             else:
-                show_overlay_message(self,"PATH NOT FOUND!", "red", 2000)
+                show_overlay_message(self, "PATH NOT FOUND!", "red", 2000)
 
     def start_dfs(self, event):
         if self.start and self.end:
