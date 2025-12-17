@@ -5,6 +5,8 @@ from Algorithms.dfs import *
 from Models.cell import *
 from UI.status import *
 import tkinter as tk
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 class Visualizer:
     def __init__(self, root):
@@ -96,15 +98,15 @@ class Visualizer:
 
     def start_dfs(self, event):
         if self.start and self.end:
-        show_running_overlay(self)
-        self.root.update()
-        result = dfs(self.draw_grid, self.grid, self.start, self.end)
-        remove_running_overlay(self)
-        self.results["DFS"] = result
-        if result["found"]:
-            show_overlay_message(self, "PATH FOUND!", "green", 2000)
-        else:
-            show_overlay_message(self, "PATH NOT FOUND!", "red", 2000)
+            show_running_overlay(self)
+            self.root.update()
+            result = dfs(self.draw_grid, self.grid, self.start, self.end)
+            remove_running_overlay(self)
+            self.results["DFS"] = result
+            if result["found"]:
+                show_overlay_message(self, "PATH FOUND!", "green", 2000)
+            else:
+                show_overlay_message(self, "PATH NOT FOUND!", "red", 2000)
 
     def clear_grid(self, event):
         self.start = None
@@ -116,27 +118,27 @@ class Visualizer:
 
     
     def show_comparison_plot(self, event=None):
-    import matplotlib.pyplot as plt
-    import seaborn as sns
+        # import matplotlib.pyplot as plt
+        # import seaborn as sns
 
-    if not self.results:
-        print("No results to show yet!")
-        return
+        if not self.results:
+            print("No results to show yet!")
+            return
 
-    algorithms = list(self.results.keys())
-    time_ms = [self.results[a]["time_ms"] for a in algorithms]
-    expanded = [self.results[a]["expanded_nodes"] for a in algorithms]
-    path_len = [self.results[a]["path_length"] for a in algorithms]
+        algorithms = list(self.results.keys())
+        time_ms = [self.results[a]["time_ms"] for a in algorithms]
+        expanded = [self.results[a]["expanded_nodes"] for a in algorithms]
+        path_len = [self.results[a]["path_length"] for a in algorithms]
 
-    fig, axs = plt.subplots(1, 3, figsize=(15, 5))
-    sns.barplot(x=algorithms, y=time_ms, ax=axs[0])
-    axs[0].set_title("Time (ms)")
+        fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+        sns.barplot(x=algorithms, y=time_ms, ax=axs[0])
+        axs[0].set_title("Time (ms)")
 
-    sns.barplot(x=algorithms, y=expanded, ax=axs[1])
-    axs[1].set_title("Expanded Nodes")
+        sns.barplot(x=algorithms, y=expanded, ax=axs[1])
+        axs[1].set_title("Expanded Nodes")
 
-    sns.barplot(x=algorithms, y=path_len, ax=axs[2])
-    axs[2].set_title("Path Length")
+        sns.barplot(x=algorithms, y=path_len, ax=axs[2])
+        axs[2].set_title("Path Length")
 
-    plt.tight_layout()
-    plt.show()
+        plt.tight_layout()
+        plt.show()
