@@ -85,6 +85,7 @@ class Visualizer:
             show_running_overlay(self)
             self.root.update()
             result = bfs(self.draw_grid, self.grid, self.start, self.end)
+            remove_running_overlay(self)
             self.results["BFS"] = result
             if result["found"]:
                 show_overlay_message(self, "PATH FOUND!", "green", 2000)
@@ -93,14 +94,15 @@ class Visualizer:
 
     def start_dfs(self, event):
         if self.start and self.end:
-            show_running_overlay(self)
-            self.root.update()
-            res = dfs(self.draw_grid, self.grid, self.start, self.end)
-            remove_running_overlay(self)
-            if res :
-                show_overlay_message(self,"PATH FOUND!", "green", 2000)
-            else:
-                show_overlay_message(self,"PATH NOT FOUND!", "red", 2000)
+        show_running_overlay(self)
+        self.root.update()
+        result = dfs(self.draw_grid, self.grid, self.start, self.end)
+        remove_running_overlay(self)
+        self.results["DFS"] = result
+        if result["found"]:
+            show_overlay_message(self, "PATH FOUND!", "green", 2000)
+        else:
+            show_overlay_message(self, "PATH NOT FOUND!", "red", 2000)
 
     def clear_grid(self, event):
         self.start = None
