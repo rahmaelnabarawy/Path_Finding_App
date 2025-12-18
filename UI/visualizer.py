@@ -118,9 +118,6 @@ class Visualizer:
 
     
     def show_comparison_plot(self, event=None):
-        # import matplotlib.pyplot as plt
-        # import seaborn as sns
-
         if not self.results:
             print("No results to show yet!")
             return
