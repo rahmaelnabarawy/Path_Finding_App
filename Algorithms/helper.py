@@ -1,6 +1,5 @@
 from config import *
 
-# --- Get neighbors in 4 directions
 def get_neighbors(grid, cell):
     neighbors = []
     for d in [(-1,0),(1,0),(0,-1),(0,1)]:
